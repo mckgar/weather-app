@@ -7,13 +7,13 @@ const weatherCaller = (() => {
     const weather = await response.json();
     return weather;
   };
-  const fetchForecast = async (location, units) => {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=${units}&appid=${API_KEY}`);
-    const forcast = await response.json();
-    return forcast;
+  const fetchOneCall = async (lat, lon, units) => {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`);
+    const weather = await response.json();
+    return weather;
   };
 
-  return { fetchWeather, fetchForecast };
+  return { fetchWeather, fetchOneCall };
 })();
 
 export default weatherCaller;
