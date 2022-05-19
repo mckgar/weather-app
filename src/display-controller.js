@@ -79,7 +79,7 @@ const displayController = (() => {
     const offset = new Date().getTimezoneOffset() * 60;
     let time = new Date((current.dt + offset + current.timezone) * 1000);
     let hours = time.getHours();
-    const minutes = time.getMinutes();
+    let minutes = time.getMinutes();
     let timeAbrv;
     if (hours > 12) {
       timeAbrv = 'PM';
@@ -89,6 +89,12 @@ const displayController = (() => {
     }
     if (hours === 0) {
       hours = 12;
+    }
+    if (hours < 10) {
+      hours = `0${hours}`;
+    }
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
     }
     time = `${hours}:${minutes} ${timeAbrv}`;
     const info = quickInfoBar(
@@ -123,6 +129,9 @@ const displayController = (() => {
     weatherSymbol.classList.add(weather, 'weather-symbol');
     weatherSymbol.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
     weatherSymbol.alt = weatherDescr;
+    const weatherDescription = document.createElement('div');
+    weatherDescription.classList.add('weather-description');
+    weatherDescription.textContent = weatherDescr;
     const tempHigh = document.createElement('div');
     tempHigh.classList.add('max-temp');
     tempHigh.textContent = `High: ${high} °${unit}`;
@@ -242,6 +251,9 @@ const displayController = (() => {
     }
     if (curDate === 0) {
       curDate = 12;
+    }
+    if (curDate < 10) {
+      curDate = `0${curDate}`;
     }
     time.textContent = `${curDate}:00 ${timeAbrv}`;
     const weather = document.createElement('img');
