@@ -141,6 +141,7 @@ const displayController = (() => {
 
     card.appendChild(date);
     card.appendChild(weatherSymbol);
+    card.appendChild(weatherDescription);
     card.appendChild(tempHigh);
     card.appendChild(tempLow);
     return card;
