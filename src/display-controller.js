@@ -4,7 +4,7 @@ const displayController = (() => {
     search.type = 'search';
     search.name = 'search';
     search.id = 'search';
-    search.placeholder = 'Denver, US';
+    search.placeholder = 'Denver, CO, US';
     return search;
   };
   const unitToggleBtn = () => {
@@ -25,27 +25,38 @@ const displayController = (() => {
 
     const infoBar = document.createElement('div');
     infoBar.id = 'info';
+    infoBar.classList.add(weather);
     const weatherSymbol = document.createElement('div');
     weatherSymbol.classList.add(weather, 'weather-symbol');
     const description = document.createElement('div');
+    description.classList.add('weather-description');
     description.textContent = weatherDescr;
     const name = document.createElement('h2');
+    name.classList.add('location-name');
     name.textContent = location;
     const temperature = document.createElement('div');
+    temperature.classList.add('current-temperature');
     temperature.textContent = `${temp} °${unit}`;
     const minTemp = document.createElement('div');
-    minTemp.textContent = `${min} °${unit}`;
+    minTemp.classList.add('min-temp');
+    minTemp.textContent = `Low:  ${min} °${unit}`;
     const maxTemp = document.createElement('div');
-    maxTemp.textContent = `${max} °${unit}`;
+    maxTemp.classList.add('max-temp');
+    maxTemp.textContent = `High: ${max} °${unit}`;
     const day = document.createElement('div');
+    day.classList.add('time');
     day.textContent = date;
+
+    const tempExtrema = document.createElement('div');
+    tempExtrema.classList.add('extrema-temperature');
+    tempExtrema.appendChild(maxTemp);
+    tempExtrema.appendChild(minTemp);
 
     infoBar.appendChild(weatherSymbol);
     infoBar.appendChild(description);
-    infoBar.appendChild(name);
     infoBar.appendChild(temperature);
-    infoBar.appendChild(minTemp);
-    infoBar.appendChild(maxTemp);
+    infoBar.appendChild(name);
+    infoBar.appendChild(tempExtrema);
     infoBar.appendChild(day);
     return infoBar;
   };
@@ -63,10 +74,21 @@ const displayController = (() => {
     return header;
   };
   const createInfoHeader = (current, min, max) => {
-    const header = document.querySelector('#header');
-
-    const offset = new Date().getTimezoneOffset();
-    const time = new Date((current.dt + offset + current.timezone) * 1000);
+    const offset = new Date().getTimezoneOffset() * 60;
+    let time = new Date((current.dt + offset + current.timezone) * 1000);
+    let hours = time.getHours();
+    const minutes = time.getMinutes();
+    let timeAbrv;
+    if (hours > 12) {
+      timeAbrv = 'PM';
+      hours %= 12;
+    } else {
+      timeAbrv = 'AM';
+    }
+    if (hours === 0) {
+      hours = 12;
+    }
+    time = `${hours}:${minutes} ${timeAbrv}`;
     const info = quickInfoBar(
       current.weather[0].main,
       current.weather[0].description,
@@ -76,8 +98,7 @@ const displayController = (() => {
       max,
       time,
     );
-
-    header.appendChild(info);
+    return info;
   };
   const createAlert = (alert) => {
     const alertBanner = document.createElement('div');
@@ -92,15 +113,17 @@ const displayController = (() => {
     card.classList.add('forecast-card', 'daily');
     const date = document.createElement('div');
     date.classList.add('day');
-    const day = new Date(time).getDay();
+    const day = new Date(time * 1000).getDay();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     date.textContent = days[day];
     const weatherSymbol = document.createElement('div');
     weatherSymbol.classList.add(weather, 'weather-symbol');
     const tempHigh = document.createElement('div');
-    tempHigh.textContent = `${high} °${unit}`;
+    tempHigh.classList.add('max-temp');
+    tempHigh.textContent = `High: ${high} °${unit}`;
     const tempLow = document.createElement('div');
-    tempLow.textContent = `${low} °${unit}`;
+    tempLow.classList.add('min-temp');
+    tempLow.textContent = `Low:  ${low} °${unit}`;
 
     card.appendChild(date);
     card.appendChild(weatherSymbol);
@@ -110,7 +133,7 @@ const displayController = (() => {
   };
   const sevenDayForecast = (week) => {
     const forecast = document.createElement('div');
-    forecast.classList.add('daily-forecast');
+    forecast.id = 'daily-forecast';
     const day1Card = forecastCard(
       week[1].dt,
       week[1].weather[0].main,
@@ -189,23 +212,32 @@ const displayController = (() => {
     const card = document.createElement('div');
     card.classList.add('forecast-card', 'hourly');
     const time = document.createElement('div');
-    const curDate = new Date(hour.dt * 1000).getHours();
+    time.classList.add('time');
+    let curDate = new Date(hour.dt * 1000).getHours();
     let timeAbrv;
     if (curDate > 12) {
-      timeAbrv = 'AM';
-    } else {
       timeAbrv = 'PM';
+      curDate %= 12;
+    } else {
+      timeAbrv = 'AM';
     }
-    time.textContent = `${curDate % 12}:00 ${timeAbrv}`;
+    if (curDate === 0) {
+      curDate = 12;
+    }
+    time.textContent = `${curDate}:00 ${timeAbrv}`;
     const weather = document.createElement('div');
     weather.classList.add(hour.weather[0].main, 'weather-symbol');
     const weatherDescription = document.createElement('div');
+    weatherDescription.classList.add('weather-description');
     weatherDescription.textContent = hour.weather[0].description;
     const temp = document.createElement('div');
+    temp.classList.add('temperature');
     temp.textContent = `${hour.temp} °${unit.classList[0]}`;
     const humidity = document.createElement('div');
+    humidity.classList.add('humidity');
     humidity.textContent = `${hour.humidity}%`;
     const wind = document.createElement('div');
+    wind.classList.add('wind');
     wind.textContent = `${hour.wind_speed}${unit.classList[1]} ${windDegreesConvert(hour.wind_deg)}`;
 
     card.appendChild(time);
@@ -218,7 +250,7 @@ const displayController = (() => {
   };
   const todayHourlyForecast = (today) => {
     const forecast = document.createElement('div');
-    forecast.classList.add('hourly-forecast');
+    forecast.id = 'hourly-forecast';
     const hour0 = hourlyForecastCard(today[0]);
     const hour1 = hourlyForecastCard(today[1]);
     const hour2 = hourlyForecastCard(today[2]);
@@ -239,11 +271,12 @@ const displayController = (() => {
     const header = createTopHeader();
     body.appendChild(header);
 
-    createInfoHeader(
+    const info = createInfoHeader(
       weatherForecast,
       oneCallForecast.daily[0].temp.min,
       oneCallForecast.daily[0].temp.max,
     );
+    body.appendChild(info);
 
     if (oneCallForecast.alerts) {
       const alert = createAlert(oneCallForecast.alerts);
