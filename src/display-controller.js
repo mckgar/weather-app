@@ -20,14 +20,16 @@ const displayController = (() => {
     });
     return unitToggle;
   };
-  const quickInfoBar = (weather, weatherDescr, location, temp, min, max, date) => {
+  const quickInfoBar = (weather, icon, weatherDescr, location, temp, min, max, date) => {
     const unit = document.querySelector('#unit').classList[0];
 
     const infoBar = document.createElement('div');
     infoBar.id = 'info';
     infoBar.classList.add(weather);
-    const weatherSymbol = document.createElement('div');
-    weatherSymbol.classList.add(weather, 'weather-symbol');
+    const weatherSymbol = document.createElement('img');
+    weatherSymbol.classList.add('weather-symbol');
+    weatherSymbol.src = `https://openweathermap.org/img/wn/${icon}.png`;
+    weatherSymbol.alt = weatherDescr;
     const description = document.createElement('div');
     description.classList.add('weather-description');
     description.textContent = weatherDescr;
@@ -91,6 +93,7 @@ const displayController = (() => {
     time = `${hours}:${minutes} ${timeAbrv}`;
     const info = quickInfoBar(
       current.weather[0].main,
+      current.weather[0].icon,
       current.weather[0].description,
       current.name,
       current.main.temp,
@@ -106,7 +109,7 @@ const displayController = (() => {
     alertBanner.textContent = alert[0].event;
     return alertBanner;
   };
-  const forecastCard = (time, weather, low, high) => {
+  const forecastCard = (time, weather, icon, weatherDescr, low, high) => {
     const unit = document.querySelector('#unit').classList[0];
 
     const card = document.createElement('div');
@@ -116,8 +119,10 @@ const displayController = (() => {
     const day = new Date(time * 1000).getDay();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     date.textContent = days[day];
-    const weatherSymbol = document.createElement('div');
+    const weatherSymbol = document.createElement('img');
     weatherSymbol.classList.add(weather, 'weather-symbol');
+    weatherSymbol.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
+    weatherSymbol.alt = weatherDescr;
     const tempHigh = document.createElement('div');
     tempHigh.classList.add('max-temp');
     tempHigh.textContent = `High: ${high} °${unit}`;
@@ -137,42 +142,56 @@ const displayController = (() => {
     const day1Card = forecastCard(
       week[1].dt,
       week[1].weather[0].main,
+      week[1].weather[0].icon,
+      week[1].weather[0].description,
       week[1].temp.min,
       week[1].temp.max,
     );
     const day2Card = forecastCard(
       week[2].dt,
       week[2].weather[0].main,
+      week[2].weather[0].icon,
+      week[2].weather[0].description,
       week[2].temp.min,
       week[2].temp.max,
     );
     const day3Card = forecastCard(
       week[3].dt,
       week[3].weather[0].main,
+      week[3].weather[0].icon,
+      week[3].weather[0].description,
       week[3].temp.min,
       week[3].temp.max,
     );
     const day4Card = forecastCard(
       week[4].dt,
       week[4].weather[0].main,
+      week[4].weather[0].icon,
+      week[4].weather[0].description,
       week[4].temp.min,
       week[4].temp.max,
     );
     const day5Card = forecastCard(
       week[5].dt,
       week[5].weather[0].main,
+      week[5].weather[0].icon,
+      week[5].weather[0].description,
       week[5].temp.min,
       week[5].temp.max,
     );
     const day6Card = forecastCard(
       week[6].dt,
       week[6].weather[0].main,
+      week[6].weather[0].icon,
+      week[6].weather[0].description,
       week[6].temp.min,
       week[6].temp.max,
     );
     const day7Card = forecastCard(
       week[7].dt,
       week[7].weather[0].main,
+      week[7].weather[0].icon,
+      week[7].weather[0].description,
       week[7].temp.min,
       week[7].temp.max,
     );
@@ -225,8 +244,10 @@ const displayController = (() => {
       curDate = 12;
     }
     time.textContent = `${curDate}:00 ${timeAbrv}`;
-    const weather = document.createElement('div');
+    const weather = document.createElement('img');
     weather.classList.add(hour.weather[0].main, 'weather-symbol');
+    weather.src = `https://openweathermap.org/img/wn/${hour.weather[0].icon}@4x.png`;
+    weather.alt = hour.weather[0].description;
     const weatherDescription = document.createElement('div');
     weatherDescription.classList.add('weather-description');
     weatherDescription.textContent = hour.weather[0].description;
