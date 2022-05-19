@@ -28,7 +28,7 @@ const displayController = (() => {
     infoBar.classList.add(weather);
     const weatherSymbol = document.createElement('img');
     weatherSymbol.classList.add('weather-symbol');
-    weatherSymbol.src = `https://openweathermap.org/img/wn/${icon}.png`;
+    weatherSymbol.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
     weatherSymbol.alt = weatherDescr;
     const description = document.createElement('div');
     description.classList.add('weather-description');
