@@ -246,8 +246,8 @@ const displayController = (() => {
   const todayHourlyForecast = (today) => {
     const forecast = document.createElement('div');
     forecast.id = 'hourly-forecast';
-    for (let i = 0; i < 7; i += 1) {
-      const hour = hourlyForecastCard(today[0]);
+    for (let i = 0; i < 12; i += 1) {
+      const hour = hourlyForecastCard(today[i]);
       forecast.appendChild(hour);
     }
     return forecast;
