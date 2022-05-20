@@ -1,22 +1,35 @@
 const displayController = (() => {
   const searchBar = () => {
+    const searchField = document.createElement('div');
+    searchField.id = 'search-field';
+
     const search = document.createElement('input');
     search.type = 'search';
     search.name = 'search';
     search.id = 'search';
-    search.placeholder = 'Denver, CO, US';
-    return search;
+    search.placeholder = 'Denver, US';
+
+    const submit = document.createElement('div');
+    submit.id = 'search-submit';
+    submit.textContent = 'SUBMIT';
+
+    searchField.appendChild(search);
+    searchField.appendChild(submit);
+    return searchField;
   };
   const unitToggleBtn = () => {
     const unitToggle = document.createElement('div');
     unitToggle.id = 'unit';
     unitToggle.classList.add('F');
     unitToggle.classList.add('mph');
+    unitToggle.classList.add('imperial');
     unitToggle.addEventListener('click', () => {
       unitToggle.classList.toggle('F');
       unitToggle.classList.toggle('mph');
+      unitToggle.classList.toggle('imperial');
       unitToggle.classList.toggle('C');
       unitToggle.classList.toggle('m/s');
+      unitToggle.classList.toggle('metric');
     });
     return unitToggle;
   };
@@ -101,7 +114,7 @@ const displayController = (() => {
       current.weather[0].main,
       current.weather[0].icon,
       current.weather[0].description,
-      current.name,
+      `${current.name}, ${current.sys.country}`,
       current.main.temp,
       min,
       max,
@@ -300,11 +313,8 @@ const displayController = (() => {
     forecast.appendChild(hour5);
     return forecast;
   };
-  const createPage = (weatherForecast, oneCallForecast) => {
+  const addPageContent = (weatherForecast, oneCallForecast) => {
     const body = document.querySelector('body');
-    const header = createTopHeader();
-    body.appendChild(header);
-
     const info = createInfoHeader(
       weatherForecast,
       oneCallForecast.daily[0].temp.min,
@@ -322,8 +332,30 @@ const displayController = (() => {
     body.appendChild(hourly);
     body.appendChild(daily);
   };
+  const createPage = () => {
+    const body = document.querySelector('body');
+    const header = createTopHeader();
+    body.appendChild(header);
+  };
+  const deleteOldContent = () => {
+    const body = document.querySelector('body');
+    const info = document.querySelector('#info');
+    const alert = document.querySelector('#alert-banner');
+    const hourly = document.querySelector('#hourly-forecast');
+    const daily = document.querySelector('#daily-forecast');
+    body.removeChild(info);
+    if (alert) {
+      body.removeChild(alert);
+    }
+    body.removeChild(hourly);
+    body.removeChild(daily);
+  };
+  const redrawPage = (weatherForecast, oneCallForecast) => {
+    deleteOldContent();
+    addPageContent(weatherForecast, oneCallForecast);
+  };
 
-  return { createPage };
+  return { createPage, addPageContent, redrawPage };
 })();
 
 export default displayController;
