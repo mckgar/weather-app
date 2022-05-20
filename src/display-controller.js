@@ -162,69 +162,17 @@ const displayController = (() => {
   const sevenDayForecast = (week) => {
     const forecast = document.createElement('div');
     forecast.id = 'daily-forecast';
-    const day1Card = forecastCard(
-      week[1].dt,
-      week[1].weather[0].main,
-      week[1].weather[0].icon,
-      week[1].weather[0].description,
-      week[1].temp.min,
-      week[1].temp.max,
-    );
-    const day2Card = forecastCard(
-      week[2].dt,
-      week[2].weather[0].main,
-      week[2].weather[0].icon,
-      week[2].weather[0].description,
-      week[2].temp.min,
-      week[2].temp.max,
-    );
-    const day3Card = forecastCard(
-      week[3].dt,
-      week[3].weather[0].main,
-      week[3].weather[0].icon,
-      week[3].weather[0].description,
-      week[3].temp.min,
-      week[3].temp.max,
-    );
-    const day4Card = forecastCard(
-      week[4].dt,
-      week[4].weather[0].main,
-      week[4].weather[0].icon,
-      week[4].weather[0].description,
-      week[4].temp.min,
-      week[4].temp.max,
-    );
-    const day5Card = forecastCard(
-      week[5].dt,
-      week[5].weather[0].main,
-      week[5].weather[0].icon,
-      week[5].weather[0].description,
-      week[5].temp.min,
-      week[5].temp.max,
-    );
-    const day6Card = forecastCard(
-      week[6].dt,
-      week[6].weather[0].main,
-      week[6].weather[0].icon,
-      week[6].weather[0].description,
-      week[6].temp.min,
-      week[6].temp.max,
-    );
-    const day7Card = forecastCard(
-      week[7].dt,
-      week[7].weather[0].main,
-      week[7].weather[0].icon,
-      week[7].weather[0].description,
-      week[7].temp.min,
-      week[7].temp.max,
-    );
-    forecast.appendChild(day1Card);
-    forecast.appendChild(day2Card);
-    forecast.appendChild(day3Card);
-    forecast.appendChild(day4Card);
-    forecast.appendChild(day5Card);
-    forecast.appendChild(day6Card);
-    forecast.appendChild(day7Card);
+    for (let i = 1; i < 8; i += 1) {
+      const dayCard = forecastCard(
+        week[i].dt,
+        week[i].weather[0].main,
+        week[i].weather[0].icon,
+        week[i].weather[0].description,
+        week[i].temp.min,
+        week[i].temp.max,
+      );
+      forecast.appendChild(dayCard);
+    }
     return forecast;
   };
   const windDegreesConvert = (degrees) => {
@@ -298,19 +246,10 @@ const displayController = (() => {
   const todayHourlyForecast = (today) => {
     const forecast = document.createElement('div');
     forecast.id = 'hourly-forecast';
-    const hour0 = hourlyForecastCard(today[0]);
-    const hour1 = hourlyForecastCard(today[1]);
-    const hour2 = hourlyForecastCard(today[2]);
-    const hour3 = hourlyForecastCard(today[3]);
-    const hour4 = hourlyForecastCard(today[4]);
-    const hour5 = hourlyForecastCard(today[5]);
-
-    forecast.appendChild(hour0);
-    forecast.appendChild(hour1);
-    forecast.appendChild(hour2);
-    forecast.appendChild(hour3);
-    forecast.appendChild(hour4);
-    forecast.appendChild(hour5);
+    for (let i = 0; i < 7; i += 1) {
+      const hour = hourlyForecastCard(today[0]);
+      forecast.appendChild(hour);
+    }
     return forecast;
   };
   const addPageContent = (weatherForecast, oneCallForecast) => {
