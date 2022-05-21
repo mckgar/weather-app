@@ -47,31 +47,48 @@ const displayController = (() => {
     description.classList.add('weather-description');
     description.textContent = weatherDescr;
     const name = document.createElement('h2');
-    name.classList.add('location-name');
+    name.id = 'location-name';
     name.textContent = location;
     const temperature = document.createElement('div');
     temperature.classList.add('current-temperature');
     temperature.textContent = `${temp} °${unit}`;
-    const minTemp = document.createElement('div');
-    minTemp.classList.add('min-temp');
-    minTemp.textContent = `Low:  ${min} °${unit}`;
-    const maxTemp = document.createElement('div');
-    maxTemp.classList.add('max-temp');
-    maxTemp.textContent = `High: ${max} °${unit}`;
+
+    const tempHigh = document.createElement('div');
+    tempHigh.classList.add('max-temp');
+    const tempHighLabel = document.createElement('div');
+    tempHighLabel.classList.add('label');
+    tempHighLabel.textContent = 'High:';
+    const tempHighValue = document.createElement('div');
+    tempHighValue.classList.add('value');
+    tempHighValue.textContent = `${max} °${unit}`;
+    tempHigh.appendChild(tempHighLabel);
+    tempHigh.appendChild(tempHighValue);
+
+    const tempLow = document.createElement('div');
+    tempLow.classList.add('min-temp');
+    const tempLowLabel = document.createElement('div');
+    tempLowLabel.classList.add('label');
+    tempLowLabel.textContent = 'Low:';
+    const tempLowValue = document.createElement('div');
+    tempLowValue.classList.add('value');
+    tempLowValue.textContent = `${min} °${unit}`;
+    tempLow.appendChild(tempLowLabel);
+    tempLow.appendChild(tempLowValue);
+
     const day = document.createElement('div');
     day.classList.add('time');
     day.textContent = date;
 
     const tempExtrema = document.createElement('div');
     tempExtrema.classList.add('extrema-temperature');
-    tempExtrema.appendChild(maxTemp);
-    tempExtrema.appendChild(minTemp);
+    tempExtrema.appendChild(tempHigh);
+    tempExtrema.appendChild(tempLow);
 
     infoBar.appendChild(weatherSymbol);
     infoBar.appendChild(description);
-    infoBar.appendChild(temperature);
-    infoBar.appendChild(name);
     infoBar.appendChild(tempExtrema);
+    infoBar.appendChild(name);
+    infoBar.appendChild(temperature);
     infoBar.appendChild(day);
     return infoBar;
   };

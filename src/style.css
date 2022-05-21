@@ -4,8 +4,18 @@
   box-sizing: border-box;
 }
 
+:root {
+  --background-color: #F2EFE9;
+  --header-color: #3F386B;
+  --button-color: #1183D0;
+  --image-background-color: #5DA9E9;
+
+  --font-color-light: #F2EFE9;
+}
+
 body {
   width: 100vw;
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,28 +24,57 @@ body {
 #header {
   width: 100vw;
   padding: 0.5rem;
+  background-color: var(--header-color);
+  color: var(--font-color-light);
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+#search-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#search {
+  border-style: none;
+  border: 1px solid black;
+  width: 80%;
+  padding: 6px 1rem;
+  border-radius: 1000px;
+}
+
+#search-submit {
+  background-color: var(--button-color);
+  color: var(--font-color-light);
+  border: 1px solid black;
+  border-radius: 1000px;
+  padding: 6px 1rem;
 }
 
 #info {
   width: 100vw;
-  padding: 1rem;
+  padding: 0.5rem;
   display: grid;
-  grid-template-columns: 2.5rem 1fr 1fr 3fr 1fr 1fr;
+  grid-template-columns: 5rem 5rem 10rem 3fr 10rem 5rem 5rem;
   align-items: center;
 
   border-bottom: 2px solid black;
-  background-color: lightblue;
+  background-color: var(--image-background-color);
 }
 
 #info .weather-symbol {
-  height: 2.4rem;
-  width: 2.4rem;
+  height: 5rem;
+  width: 5rem;
 }
 
 #info * {
   text-align: center;
+}
+
+#location-name {
+  font-size: 2.8rem;
 }
 
 #alert-banner {
@@ -45,37 +84,59 @@ body {
   background-color: red;
 }
 
+.forecast-card {
+  background-color: var(--header-color);
+  color: var(--font-color-light);
+}
+
 #hourly-forecast {
   width: 90vw;
-  margin-top: 3rem;
+  margin-top: 2rem;
   border: 1px solid black;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(9, 1fr);
+  text-align: center;
 }
 
 #hourly-forecast .weather-symbol {
-  height: calc(90vw / 6);
-  border-bottom: 1px solid black;
+  height: calc(90vw / 9);
+  border-bottom: 2px solid black;
+}
+
+.wind,
+.humidity,
+.max-temp,
+.min-temp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 5px;
 }
 
 #daily-forecast {
   width: 90vw;
-  margin-top: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   border: 1px solid black;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  text-align: center;
 }
 
 #daily-forecast .weather-symbol {
   height: calc(90vw / 7);
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
 }
 
 .forecast-card + .forecast-card {
-  border-left: 1px solid black;
+  border-left: 2px solid black;
 }
 
 .forecast-card .time,
 .forecast-card .day {
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
+}
+
+.forecast-card img {
+  background-color: var(--image-background-color);
 }
