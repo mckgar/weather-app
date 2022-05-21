@@ -35,3 +35,4 @@ search.addEventListener('keyup', (e) => {
     newPage(search.value, unitToggle.classList[2]);
   }
 });
+unitToggle.addEventListener('click', () => newPage(currentWeather.name, unitToggle.classList[2]));

@@ -8,7 +8,7 @@
   --background-color: #F2EFE9;
   --header-color: #3F386B;
   --button-color: #1183D0;
-  --image-background-color: #5DA9E9;
+  --image-background-color: #89B5D9;
 
   --font-color-light: #F2EFE9;
 }
@@ -45,12 +45,34 @@ body {
   border-radius: 1000px;
 }
 
-#search-submit {
+#search-submit,
+#unit {
   background-color: var(--button-color);
   color: var(--font-color-light);
   border: 1px solid black;
   border-radius: 1000px;
   padding: 6px 1rem;
+  text-align: center;
+
+  cursor: pointer;
+}
+
+#search-submit:active,
+#unit:active {
+  border: 1px solid var(--font-color-light);
+}
+
+#unit {
+  justify-self: end;
+  align-self: center;
+}
+
+#unit.imperial:before {
+  content: 'Imperial';
+}
+
+#unit.metric:before {
+  content: 'Metric';
 }
 
 #info {
@@ -87,12 +109,13 @@ body {
 .forecast-card {
   background-color: var(--header-color);
   color: var(--font-color-light);
+  border: 2px solid black;
 }
 
 #hourly-forecast {
   width: 90vw;
   margin-top: 2rem;
-  border: 1px solid black;
+  /* border: 2px solid black; */
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   text-align: center;
@@ -117,7 +140,7 @@ body {
   width: 90vw;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  border: 1px solid black;
+  /* border: 2px solid black; */
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
@@ -129,7 +152,7 @@ body {
 }
 
 .forecast-card + .forecast-card {
-  border-left: 2px solid black;
+  border-left: 0px solid black;
 }
 
 .forecast-card .time,
