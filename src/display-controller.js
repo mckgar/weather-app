@@ -145,12 +145,28 @@ const displayController = (() => {
     const weatherDescription = document.createElement('div');
     weatherDescription.classList.add('weather-description');
     weatherDescription.textContent = weatherDescr;
+
     const tempHigh = document.createElement('div');
     tempHigh.classList.add('max-temp');
-    tempHigh.textContent = `High: ${high} °${unit}`;
+    const tempHighLabel = document.createElement('div');
+    tempHighLabel.classList.add('label');
+    tempHighLabel.textContent = 'High:';
+    const tempHighValue = document.createElement('div');
+    tempHighValue.classList.add('value');
+    tempHighValue.textContent = `${high} °${unit}`;
+    tempHigh.appendChild(tempHighLabel);
+    tempHigh.appendChild(tempHighValue);
+
     const tempLow = document.createElement('div');
     tempLow.classList.add('min-temp');
-    tempLow.textContent = `Low:  ${low} °${unit}`;
+    const tempLowLabel = document.createElement('div');
+    tempLowLabel.classList.add('label');
+    tempLowLabel.textContent = 'Low:';
+    const tempLowValue = document.createElement('div');
+    tempLowValue.classList.add('value');
+    tempLowValue.textContent = `${low} °${unit}`;
+    tempLow.appendChild(tempLowLabel);
+    tempLow.appendChild(tempLowValue);
 
     card.appendChild(date);
     card.appendChild(weatherSymbol);
@@ -218,22 +234,41 @@ const displayController = (() => {
       curDate = `0${curDate}`;
     }
     time.textContent = `${curDate}:00 ${timeAbrv}`;
+
     const weather = document.createElement('img');
     weather.classList.add(hour.weather[0].main, 'weather-symbol');
     weather.src = `https://openweathermap.org/img/wn/${hour.weather[0].icon}@4x.png`;
     weather.alt = hour.weather[0].description;
+
     const weatherDescription = document.createElement('div');
     weatherDescription.classList.add('weather-description');
     weatherDescription.textContent = hour.weather[0].description;
+
     const temp = document.createElement('div');
     temp.classList.add('temperature');
     temp.textContent = `${hour.temp} °${unit.classList[0]}`;
+
     const humidity = document.createElement('div');
     humidity.classList.add('humidity');
-    humidity.textContent = `${hour.humidity}%`;
+    const humidityLabel = document.createElement('div');
+    humidityLabel.classList.add('label');
+    humidityLabel.textContent = 'Humidity:';
+    const humidityValue = document.createElement('div');
+    humidityValue.classList.add('value');
+    humidityValue.textContent = `${hour.humidity}%`;
+    humidity.appendChild(humidityLabel);
+    humidity.appendChild(humidityValue);
+
     const wind = document.createElement('div');
     wind.classList.add('wind');
-    wind.textContent = `${hour.wind_speed}${unit.classList[1]} ${windDegreesConvert(hour.wind_deg)}`;
+    const windLabel = document.createElement('div');
+    windLabel.classList.add('label');
+    windLabel.textContent = 'Wind:';
+    const windValue = document.createElement('div');
+    windValue.classList.add('value');
+    windValue.textContent = `${hour.wind_speed}${unit.classList[1]} ${windDegreesConvert(hour.wind_deg)}`;
+    wind.appendChild(windLabel);
+    wind.appendChild(windValue);
 
     card.appendChild(time);
     card.appendChild(weather);
@@ -246,7 +281,7 @@ const displayController = (() => {
   const todayHourlyForecast = (today) => {
     const forecast = document.createElement('div');
     forecast.id = 'hourly-forecast';
-    for (let i = 0; i < 12; i += 1) {
+    for (let i = 0; i < 9; i += 1) {
       const hour = hourlyForecastCard(today[i]);
       forecast.appendChild(hour);
     }
